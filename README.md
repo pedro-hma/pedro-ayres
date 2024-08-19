@@ -6,7 +6,7 @@ chat <img width=100% src="https://capsule-render.vercel.app/api?type=waving&colo
 </br>
 
 <div align="center">  
-  <img width="49%" height="195px" src="https://github-readme-stats.vercel.app/api?username=alvccpj&show_icons=true&count_private=true&hide_border=true&title_color=d3d3d3&icon_color=646464&text_color=c9d1d9&bg_color=0d1117" alt="Pedro Ayres github stats" /> 
+  <img width="49%" height="195px" src="https://github-readme-stats.vercel.app/api?username=pedro-hma&show_icons=true&count_private=true&hide_border=true&title_color=d3d3d3&icon_color=646464&text_color=c9d1d9&bg_color=0d1117" alt="Pedro Ayres github stats" /> 
   
 #
 
