@@ -1,4 +1,4 @@
-chat <img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=d3d3d3&height=120&section=header"/>
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=d3d3d3&height=120&section=header"/>
 
 [![Typing SVG](https://readme-typing-svg.herokuapp.com/?color=d3d3d3&size=35&center=true&vCenter=true&width=1000&lines=Hi+there,+my+name+is+Pedro+Ayres;I'm+20+years+old;I'm+from+Brazil;I'm+Graduating+in+Computer+Science;Be+Welcome!+:%29)](https://git.io/typing-svg)
 
@@ -10,14 +10,14 @@ chat <img width=100% src="https://capsule-render.vercel.app/api?type=waving&colo
   
 #
 
-  <h3 align="center"style="font-size:23px">👨‍🎓 Hard Skills:</h3>
+  <h3 align="center" style="font-size:23px">👨‍🎓 Hard Skills:</h3>
   <div align="center" style="display: inline_block">
     <img align="center" alt="java" src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white" />
     <img align="center" alt="salesforce" src="https://img.shields.io/badge/Salesforce-00A1E0?style=for-the-badge&logo=salesforce&logoColor=white" />
     <img align="center" alt="apex" src="https://img.shields.io/badge/Apex-1769A6?style=for-the-badge&logo=salesforce&logoColor=white" />
   </div><br/>
   
-  <h3 align="center"style="font-size:23px">⚙️ Other technologies:</h3>
+  <h3 align="center" style="font-size:23px">⚙️ Other technologies:</h3>
 
   <div align="center" style="display: inline_block">
     <img align="center" alt="html5" src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
@@ -26,10 +26,6 @@ chat <img width=100% src="https://capsule-render.vercel.app/api?type=waving&colo
   </div><br/>
   
   <h3 align="center" style="font-size:23px">Get in touch:</h3>
+</div></br>
 
-  <p align="center">
-    <a href="https://www.instagram.com/notalvinho/" target="blank"><img align="center" src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="vini.venturaa"/></a>
-  
-  </p></br>
-
-  <img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=d3d3d3&height=120&section=footer"/>
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=d3d3d3&height=120&section=footer"/>
