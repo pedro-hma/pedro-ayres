@@ -1,67 +1,99 @@
-import tkinter as tk
-from tkinter import messagebox
+import pygame
+import sys
 
-class TicTacToe:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Jogo da Velha")
-        self.current_player = "X"
-        self.board = [ [None for _ in range(3)] for _ in range(3) ]
-        self.buttons = [ [None for _ in range(3)] for _ in range(3) ]
-        self.create_board()
-        
-    def create_board(self):
-        for row in range(3):
-            for col in range(3):
-                # Cria um botão para cada célula do tabuleiro
-                button = tk.Button(self.root, text="", font=('Arial', 40), width=5, height=2,
-                                   command=lambda r=row, c=col: self.on_button_click(r, c))
-                button.grid(row=row, column=col)
-                self.buttons[row][col] = button
+# Inicializa o Pygame
+pygame.init()
 
-    def on_button_click(self, row, col):
-        if self.board[row][col] is None:
-            # Atualiza o estado do tabuleiro
-            self.board[row][col] = self.current_player
-            self.buttons[row][col].config(text=self.current_player)
-            
-            if self.check_winner(self.current_player):
-                messagebox.showinfo("Fim de Jogo", f"Jogador {self.current_player} venceu!")
-                self.reset_board()
-            elif self.is_draw():
-                messagebox.showinfo("Fim de Jogo", "Empate!")
-                self.reset_board()
-            else:
-                # Alterna o jogador
-                self.current_player = "O" if self.current_player == "X" else "X"
+# Configurações da tela
+LARGURA, ALTURA = 600, 600
+TAMANHO_CELULA = LARGURA // 3
+TELA = pygame.display.set_mode((LARGURA, ALTURA))
+pygame.display.set_caption("Jogo da Velha")
 
-    def check_winner(self, player):
-        # Verifica linhas
-        for row in self.board:
-            if all(cell == player for cell in row):
-                return True
-        # Verifica colunas
-        for col in range(3):
-            if all(self.board[row][col] == player for row in range(3)):
-                return True
-        # Verifica diagonais
-        if all(self.board[i][i] == player for i in range(3)):
-            return True
-        if all(self.board[i][2-i] == player for i in range(3)):
-            return True
-        return False
+# Cores
+BRANCO = (255, 255, 255)
+PRETO = (0, 0, 0)
+VERMELHO = (255, 0, 0)
 
-    def is_draw(self):
-        return all(all(cell is not None for cell in row) for row in self.board)
+# Fonte
+FONTE = pygame.font.Font(None, 80)
 
-    def reset_board(self):
-        self.current_player = "X"
-        self.board = [ [None for _ in range(3)] for _ in range(3) ]
-        for row in range(3):
-            for col in range(3):
-                self.buttons[row][col].config(text="", state=tk.NORMAL)
+# Inicializa o tabuleiro
+tabuleiro = [""] * 9
+turno = "X"
+
+# Desenha as linhas do tabuleiro
+def desenhar_linhas():
+    for i in range(1, 3):
+        pygame.draw.line(TELA, PRETO, (0, TAMANHO_CELULA * i), (LARGURA, TAMANHO_CELULA * i), 5)
+        pygame.draw.line(TELA, PRETO, (TAMANHO_CELULA * i, 0), (TAMANHO_CELULA * i, ALTURA), 5)
+
+# Desenha os símbolos no tabuleiro
+def desenhar_simbolos():
+    for i in range(9):
+        x = (i % 3) * TAMANHO_CELULA + TAMANHO_CELULA // 2
+        y = (i // 3) * TAMANHO_CELULA + TAMANHO_CELULA // 2
+        if tabuleiro[i] == "X":
+            texto = FONTE.render("X", True, VERMELHO)
+            TELA.blit(texto, (x - texto.get_width() // 2, y - texto.get_height() // 2))
+        elif tabuleiro[i] == "O":
+            texto = FONTE.render("O", True, PRETO)
+            TELA.blit(texto, (x - texto.get_width() // 2, y - texto.get_height() // 2))
+
+# Verifica se há um vencedor
+def verificar_vencedor():
+    combinacoes = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+    ]
+    for combinacao in combinacoes:
+        a, b, c = combinacao
+        if tabuleiro[a] == tabuleiro[b] == tabuleiro[c] != "":
+            return tabuleiro[a]
+    if "" not in tabuleiro:
+        return "Empate"
+    return None
+
+# Reinicia o jogo
+def reiniciar_jogo():
+    global tabuleiro, turno
+    tabuleiro = [""] * 9
+    turno = "X"
+
+# Loop principal
+def main():
+    global turno
+    rodando = True
+    while rodando:
+        TELA.fill(BRANCO)
+        desenhar_linhas()
+        desenhar_simbolos()
+
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                rodando = False
+            if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+                x, y = pygame.mouse.get_pos()
+                linha = y // TAMANHO_CELULA
+                coluna = x // TAMANHO_CELULA
+                idx = linha * 3 + coluna
+                if tabuleiro[idx] == "":
+                    tabuleiro[idx] = turno
+                    vencedor = verificar_vencedor()
+                    if vencedor:
+                        if vencedor == "Empate":
+                            print("Empate!")
+                        else:
+                            print(f"O jogador {vencedor} venceu!")
+                        reiniciar_jogo()
+                    else:
+                        turno = "O" if turno == "X" else "X"
+
+        pygame.display.flip()
+
+    pygame.quit()
+    sys.exit()
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    game = TicTacToe(root)
-    root.mainloop()
+    main()
