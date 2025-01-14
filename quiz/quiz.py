@@ -1,12 +1,14 @@
 import random
 import requests
 from deep_translator import GoogleTranslator
+import json
 
 class Quiz:
     def __init__(self):
         self.questions = []
         self.user_score = 0
         self.total_questions = 0
+        self.history = []  # Lista para armazenar o histórico das partidas
 
     def fetch_questions(self, num_questions=5):
         """Busca perguntas de uma API online e as traduz para português."""
@@ -72,7 +74,19 @@ class Quiz:
                 correct_ans = question_data['options'][question_data['correct_option'] - 1]
                 print(f"Errado! A resposta correta era: {correct_ans}\n")
 
+        self.save_history()
         self.show_statistics()
+
+    def save_history(self):
+        """Salva o resultado da partida no histórico."""
+        match_result = {
+            "total_questions": self.total_questions,
+            "user_score": self.user_score,
+            "percentage": (self.user_score / self.total_questions) * 100
+        }
+        self.history.append(match_result)
+        with open("quiz_history.json", "w") as file:
+            json.dump(self.history, file, indent=4)
 
     def show_statistics(self):
         """Exibe os resultados e estatísticas do quiz."""
