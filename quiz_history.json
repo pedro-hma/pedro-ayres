@@ -1,7 +1,69 @@
 [
     {
         "total_questions": 5,
-        "user_score": 3,
-        "percentage": 60.0
+        "user_score": 1,
+        "percentage": 20.0,
+        "round_details": [
+            {
+                "question": "Em South Park, qual é o sobrenome de Stan?",
+                "options": [
+                    "Estoque",
+                    "Ajustar",
+                    "Pântano",
+                    "Broflovski"
+                ],
+                "correct_option": "Pântano",
+                "user_answer": "Broflovski",
+                "is_correct": false
+            },
+            {
+                "question": "A banda Muse lançou seu primeiro álbum, Showbiz, em que ano?",
+                "options": [
+                    "1998",
+                    "1999",
+                    "2001",
+                    "2000"
+                ],
+                "correct_option": "1999",
+                "user_answer": "2000",
+                "is_correct": false
+            },
+            {
+                "question": "Qual era a religião do famoso cantor &quot;Freddie Mercury&quot;?",
+                "options": [
+                    "judaísmo",
+                    "Paganismo",
+                    "Zoroastrismo",
+                    "Ashurismo"
+                ],
+                "correct_option": "Zoroastrismo",
+                "user_answer": "judaísmo",
+                "is_correct": false
+            },
+            {
+                "question": "Qual é o substantivo coletivo para um grupo de corvos?",
+                "options": [
+                    "Assassinato",
+                    "Pacote",
+                    "Rebanho",
+                    "Bando"
+                ],
+                "correct_option": "Assassinato",
+                "user_answer": "Bando",
+                "is_correct": false
+            },
+            {
+                "question": "Qual jogador de futebol está na capa do FIFA 18 da EA Sport?",
+                "options": [
+                    "Lionel Messi",
+                    "Neymar",
+                    "Harry Kane",
+                    "Cristiano Ronaldo"
+                ],
+                "correct_option": "Cristiano Ronaldo",
+                "user_answer": "Cristiano Ronaldo",
+                "is_correct": true
+            }
+        ]
     }
 ]
