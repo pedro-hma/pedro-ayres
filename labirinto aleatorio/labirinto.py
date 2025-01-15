@@ -1,9 +1,13 @@
 import os
-os.environ["SDL_AUDIODRIVER"] = "dummy"  # Desabilita o áudio
-
 import pygame
 import random
 import sys
+
+# Desabilitar áudio apenas se necessário
+try:
+    os.environ["SDL_AUDIODRIVER"] = "dummy"
+except Exception as e:
+    print(f"Erro ao desabilitar áudio: {e}")
 
 # Definições de cores
 WHITE = (255, 255, 255)
@@ -19,6 +23,7 @@ GRID_HEIGHT = 20
 
 # Direções para movimentação
 DIRECTIONS = [(0, -1), (0, 1), (-1, 0), (1, 0)]
+
 
 class Maze:
     def __init__(self, width, height):
@@ -41,6 +46,11 @@ class Maze:
         dfs(*self.start)
         self.grid[self.end[1]][self.end[0]] = 0
 
+        # Mostrar o labirinto gerado para depuração
+        print("Labirinto gerado:")
+        for linha in self.grid:
+            print("".join([" " if cell == 0 else "#" for cell in linha]))
+
     def _count_adjacent_open_cells(self, x, y):
         count = 0
         for dx, dy in DIRECTIONS:
@@ -48,6 +58,7 @@ class Maze:
             if 0 <= nx < self.width and 0 <= ny < self.height:
                 count += self.grid[ny][nx] == 0
         return count
+
 
 class Game:
     def __init__(self):
@@ -60,6 +71,10 @@ class Game:
         self.maze.generate()
 
         self.player_pos = list(self.maze.start)
+
+        # Certifique-se de que o ponto inicial não está bloqueado
+        if self.maze.grid[self.player_pos[1]][self.player_pos[0]] != 0:
+            raise ValueError("Posição inicial bloqueada no labirinto!")
 
     def draw_grid(self):
         for y in range(self.maze.height):
@@ -84,34 +99,45 @@ class Game:
         print("Iniciando o jogo...")
         running = True
         while running:
-            keys = pygame.key.get_pressed()  # Captura teclas pressionadas diretamente
-            if keys[pygame.K_UP]:
-                self.move_player(0, -1)
-            if keys[pygame.K_DOWN]:
-                self.move_player(0, 1)
-            if keys[pygame.K_LEFT]:
-                self.move_player(-1, 0)
-            if keys[pygame.K_RIGHT]:
-                self.move_player(1, 0)
-
             for event in pygame.event.get():
-                print(event)  # Log de eventos para depuração
                 if event.type == pygame.QUIT:
                     running = False
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        print("Tecla UP pressionada")
+                        self.move_player(0, -1)
+                    elif event.key == pygame.K_DOWN:
+                        print("Tecla DOWN pressionada")
+                        self.move_player(0, 1)
+                    elif event.key == pygame.K_LEFT:
+                        print("Tecla LEFT pressionada")
+                        self.move_player(-1, 0)
+                    elif event.key == pygame.K_RIGHT:
+                        print("Tecla RIGHT pressionada")
+                        self.move_player(1, 0)
 
             self.screen.fill(BLACK)
             self.draw_grid()
             pygame.display.flip()
-            self.clock.tick(10)  # Reduziu FPS para facilitar depuração
+            self.clock.tick(10)
 
             if tuple(self.player_pos) == self.maze.end:
                 print("Você venceu!")
+                font = pygame.font.SysFont("Arial", 36)
+                text = font.render("Você venceu!", True, GREEN)
+                self.screen.blit(text, (self.screen.get_width() // 4, self.screen.get_height() // 2))
+                pygame.display.flip()
+                pygame.time.wait(2000)
                 running = False
 
         pygame.quit()
         sys.exit()
 
+
 if __name__ == "__main__":
-    print("Inicializando o Labirinto...")
-    game = Game()
-    game.run()
+    print("Inicializando o Labirinto...")  # Verificar se o script começa corretamente
+    try:
+        game = Game()
+        game.run()
+    except Exception as e:
+        print(f"Erro ao executar o jogo: {e}")
