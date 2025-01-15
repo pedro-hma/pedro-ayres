@@ -46,11 +46,6 @@ class Maze:
         dfs(*self.start)
         self.grid[self.end[1]][self.end[0]] = 0
 
-        # Mostrar o labirinto gerado para depuração
-        print("Labirinto gerado:")
-        for linha in self.grid:
-            print("".join([" " if cell == 0 else "#" for cell in linha]))
-
     def _count_adjacent_open_cells(self, x, y):
         count = 0
         for dx, dy in DIRECTIONS:
@@ -76,6 +71,22 @@ class Game:
         if self.maze.grid[self.player_pos[1]][self.player_pos[0]] != 0:
             raise ValueError("Posição inicial bloqueada no labirinto!")
 
+    def show_start_screen(self):
+        self.screen.fill(BLACK)
+        font = pygame.font.SysFont("Arial", 48)
+        text = font.render("Pressione qualquer tecla para começar!", True, WHITE)
+        self.screen.blit(text, (self.screen.get_width() // 8, self.screen.get_height() // 2))
+        pygame.display.flip()
+
+        waiting = True
+        while waiting:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    waiting = False
+
     def draw_grid(self):
         for y in range(self.maze.height):
             for x in range(self.maze.width):
@@ -93,10 +104,10 @@ class Game:
         new_x, new_y = self.player_pos[0] + dx, self.player_pos[1] + dy
         if 0 <= new_x < self.maze.width and 0 <= new_y < self.maze.height and self.maze.grid[new_y][new_x] == 0:
             self.player_pos = [new_x, new_y]
-            print(f"Jogador se moveu para {self.player_pos}")  # Log do movimento
 
     def run(self):
-        print("Iniciando o jogo...")
+        self.show_start_screen()  # Mostrar tela inicial
+
         running = True
         while running:
             for event in pygame.event.get():
@@ -104,16 +115,12 @@ class Game:
                     running = False
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
-                        print("Tecla UP pressionada")
                         self.move_player(0, -1)
                     elif event.key == pygame.K_DOWN:
-                        print("Tecla DOWN pressionada")
                         self.move_player(0, 1)
                     elif event.key == pygame.K_LEFT:
-                        print("Tecla LEFT pressionada")
                         self.move_player(-1, 0)
                     elif event.key == pygame.K_RIGHT:
-                        print("Tecla RIGHT pressionada")
                         self.move_player(1, 0)
 
             self.screen.fill(BLACK)
@@ -122,7 +129,6 @@ class Game:
             self.clock.tick(10)
 
             if tuple(self.player_pos) == self.maze.end:
-                print("Você venceu!")
                 font = pygame.font.SysFont("Arial", 36)
                 text = font.render("Você venceu!", True, GREEN)
                 self.screen.blit(text, (self.screen.get_width() // 4, self.screen.get_height() // 2))
@@ -135,7 +141,6 @@ class Game:
 
 
 if __name__ == "__main__":
-    print("Inicializando o Labirinto...")  # Verificar se o script começa corretamente
     try:
         game = Game()
         game.run()
