@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Network</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo à Social Network!</h1>
+
+        <!-- Cadastro de Usuário -->
+        <h2>Cadastrar Usuário</h2>
+        <form action="/register" method="post">
+            <input type="text" name="name" placeholder="Nome" required />
+            <input type="email" name="email" placeholder="Email" required />
+            <button type="submit">Cadastrar Usuário</button>
+        </form>
+
+        <!-- Criar Postagem -->
+        <h2>Criar Postagem</h2>
+        <form action="/post" method="post">
+            <input type="number" name="user_id" placeholder="ID do Usuário" required />
+            <textarea name="content" placeholder="Conteúdo" rows="4" required></textarea>
+            <button type="submit">Criar Postagem</button>
+        </form>
+
+        <!-- Exibir Usuários -->
+        <h2>Usuários Cadastrados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody id="user-table">
+                <!-- Conteúdo carregado dinamicamente -->
+            </tbody>
+        </table>
+
+        <!-- Exibir Postagens -->
+        <h2>Postagens</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID do Usuário</th>
+                    <th>Conteúdo</th>
+                </tr>
+            </thead>
+            <tbody id="post-table">
+                <!-- Conteúdo carregado dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Função para carregar usuários
+        fetch('/users')
+            .then(response => response.json())
+            .then(data => {
+                const userTable = document.getElementById('user-table');
+                userTable.innerHTML = data.map(user => `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                    </tr>
+                `).join('');
+            });
+
+        // Função para carregar postagens
+        fetch('/posts')
+            .then(response => response.json())
+            .then(data => {
+                const postTable = document.getElementById('post-table');
+                postTable.innerHTML = data.map(post => `
+                    <tr>
+                        <td>${post.user_id}</td>
+                        <td>${post.content}</td>
+                    </tr>
+                `).join('');
+            });
+    </script>
+</body>
+</html>
